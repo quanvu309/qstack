@@ -1,0 +1,60 @@
+{
+  "type": "bien-ban",
+  "issuer": {
+    "name": "Công ty Cổ phần XYZ",
+    "abbr": "XYZ"
+  },
+  "number": 7,
+  "subject": "Họp giao ban kết quả kinh doanh tháng 10 năm 2026",
+  "body": [
+    {
+      "lead": "Thời gian bắt đầu:",
+      "text": "14 giờ 00 phút, ngày 30 tháng 10 năm 2026."
+    },
+    {
+      "lead": "Địa điểm:",
+      "text": "Phòng họp tầng 5, trụ sở Công ty Cổ phần XYZ, số 25 phố Lý Thường Kiệt, Hà Nội."
+    },
+    {
+      "lead": "Thành phần tham dự:",
+      "text": "Ban Giám đốc, Trưởng các phòng Kinh doanh, Kế toán, Hành chính - Nhân sự và Kỹ thuật."
+    },
+    {
+      "lead": "Chủ trì (chủ tọa):",
+      "text": "Ông Lê Hoàng Nam, Giám đốc Công ty."
+    },
+    {
+      "lead": "Thư ký (người ghi biên bản):",
+      "text": "Bà Đỗ Thị Lan, chuyên viên Phòng Hành chính - Nhân sự."
+    },
+    {
+      "lead": "Nội dung:",
+      "text": "Cuộc họp đã nghe báo cáo và thống nhất các nội dung sau."
+    },
+    {
+      "heading": "I. KẾT QUẢ KINH DOANH THÁNG 10 NĂM 2026"
+    },
+    "Ông Nguyễn Văn An, Trưởng phòng Kinh doanh, báo cáo doanh thu tháng 10 đạt 18,6 tỷ đồng, bằng 103% kế hoạch tháng và tăng 7% so với cùng kỳ năm trước.",
+    {
+      "heading": "II. KẾT LUẬN CỦA CHỦ TỌA"
+    },
+    "Phòng Kinh doanh hoàn thiện kế hoạch bán hàng quý IV và gửi Ban Giám đốc trước ngày 07 tháng 11 năm 2026. Phòng Kế toán rà soát công nợ quá hạn và báo cáo trong cuộc họp giao ban tháng 11.",
+    "Cuộc họp kết thúc vào 16 giờ 15 phút cùng ngày. Biên bản được lập thành 02 bản có giá trị như nhau và được các thành viên dự họp thống nhất thông qua."
+  ],
+  "recipients": [
+    "Các thành viên dự họp",
+    "Lưu: VT, Hồ sơ"
+  ],
+  "signers": [
+    {
+      "position": [],
+      "name": "Đỗ Thị Lan"
+    },
+    {
+      "position": [
+        "GIÁM ĐỐC"
+      ],
+      "name": "Lê Hoàng Nam"
+    }
+  ]
+}

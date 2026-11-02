@@ -1,0 +1,36 @@
+{
+  "type": "cong-van",
+  "issuer": {
+    "name": "Công ty Cổ phần XYZ",
+    "abbr": "XYZ"
+  },
+  "unit": "HCNS",
+  "number": 12,
+  "place": "Hà Nội",
+  "date": "2026-10-28",
+  "subject": "đề nghị cung cấp hồ sơ phục vụ nghiệm thu giai đoạn 1",
+  "to": [
+    "Công ty TNHH DEF"
+  ],
+  "body": [
+    "Căn cứ Hợp đồng số 18/2026/HĐ-XYZ-DEF ngày 20 tháng 8 năm 2026 về việc triển khai hệ thống quản lý kho, để phục vụ công tác nghiệm thu giai đoạn 1, Công ty Cổ phần XYZ đề nghị Quý Công ty cung cấp các hồ sơ, tài liệu sau:",
+    "1. Báo cáo kết quả triển khai giai đoạn 1 có xác nhận của đại diện Quý Công ty;",
+    "2. Tài liệu hướng dẫn sử dụng và biên bản bàn giao thiết bị;",
+    "3. Bản sao giấy chứng nhận bảo hành và hồ sơ năng lực của các kỹ sư tham gia dự án.",
+    "Hồ sơ đề nghị gửi về Phòng Hành chính - Nhân sự, Công ty Cổ phần XYZ, số 25 phố Lý Thường Kiệt, thành phố Hà Nội, trước ngày 10 tháng 11 năm 2026. Thông tin chi tiết xin liên hệ bà Trần Thu Hà, điện thoại 024 3825 0000.",
+    "Trân trọng cảm ơn sự phối hợp của Quý Công ty."
+  ],
+  "recipients": [
+    "Như trên",
+    "Ban Giám đốc",
+    "Lưu: VT, HCNS"
+  ],
+  "signers": [
+    {
+      "position": [
+        "TỔNG GIÁM ĐỐC"
+      ],
+      "name": "Phạm Quốc Huy"
+    }
+  ]
+}
