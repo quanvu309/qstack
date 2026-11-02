@@ -1,6 +1,6 @@
 {
   "name": "qstack",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Agent skills for writing and designing in Vietnamese: native prose without translationese, official documents in Nghị định 30 format, typography that keeps diacritics whole, and forms that fit Vietnamese names, addresses and money.",
   "author": {
     "name": "rickvu",

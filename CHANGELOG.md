@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.4
+
+- `vi-writing` catches **machine tone** as well as translationese: four new catalog patterns for sentences that narrate the page, clauses strung for rhythm, wrap-up sentences, and claims any product could make. Pattern 3's example no longer models a generic claim.
+- The README is rewritten against the new patterns.
+
 ## 0.0.3
 
 - Skills renamed with a short `vi-` prefix: `vietnamese-writing` → `vi-writing`, `setup-qstack` → `vi-setup`, `vietnamese-official-document` → `vi-official-doc`, `vietnamese-one-pager` → `vi-one-pager`, `vietnamese-typography` → `vi-typography`, `vietnamese-locale` → `vi-locale`. Run `/vi-setup` where you ran `/setup-qstack`.

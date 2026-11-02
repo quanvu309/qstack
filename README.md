@@ -1,34 +1,32 @@
 # qstack
 
-**Để AI agent viết tiếng Việt như người Việt, soạn văn bản đúng thể thức và dựng giao diện không mất dấu.**
+Bộ skill giúp agent viết tiếng Việt không còn giọng dịch.
 
-Agent viết tiếng Việt đúng ngữ pháp mà đọc vẫn ra giọng dịch, dựng form vẫn hỏi "quận/huyện", xếp tên thì để "Đông" sau "Zô". qstack gồm sáu skill cho Claude Code, Codex, Cursor và agent khác, mỗi skill sửa một nhóm lỗi như vậy. Bảng dưới đặt câu agent hay viết cạnh câu người Việt viết cho cùng ý.
+Hỏi agent bằng tiếng Việt, câu trả lời thường đúng chính tả nhưng người Việt đọc là biết dịch từ tiếng Anh: "được thực hiện bởi", "một cách nhanh chóng", "của bạn" ở gần như mọi câu. Dùng được với Claude Code, Codex, Cursor và các agent đọc được skill.
 
-| | Agent hay viết | Người Việt viết |
+> **English:** agent skills for writing, official documents and UI in Vietnamese.
+
+## Trước và sau
+
+| Tình huống | Agent thường viết | Có qstack |
 | --- | --- | --- |
-| Câu bị động | Báo cáo đã được hoàn thành bởi nhóm. | Nhóm đã làm xong báo cáo. |
-| Danh từ hóa | Việc sử dụng ứng dụng này mang lại sự tiết kiệm đáng kể về thời gian. | Ứng dụng này giúp bạn tiết kiệm khá nhiều thời gian. |
-| "Của bạn", "có thể" | Bạn có thể nhấn vào đây để tải về các tệp của bạn. | Nhấn vào đây để tải tệp về. |
-| Báo lỗi | Mật khẩu của bạn không chính xác. | Mật khẩu chưa đúng. Thử lại hoặc đặt lại mật khẩu. |
-| Trạng thái trống | Không có đơn hàng nào. | Chưa có đơn hàng nào. |
-| Xưng hô khi chat bán hàng | Bạn vui lòng chờ, chúng tôi sẽ kiểm tra đơn hàng của bạn. | Dạ, em kiểm tra đơn cho anh/chị ngay ạ. |
-| Tiêu đề, tiền, ngày | Hướng Dẫn Thanh Toán: 250.000,00 VND trước 11/2/2026 | Hướng dẫn thanh toán: 250.000 đ trước 2/11/2026 |
+| Báo lỗi đăng nhập | Mật khẩu của bạn không chính xác. Vui lòng thử lại. | Mật khẩu chưa đúng. Thử lại hoặc đặt lại mật khẩu. |
+| Một câu trong báo cáo | Việc triển khai hệ thống đã được hoàn thành bởi phòng IT. | Phòng IT đã triển khai xong hệ thống. |
+| Nhắn khách hàng | Bạn vui lòng chờ, chúng tôi sẽ kiểm tra đơn hàng của bạn. | Dạ, anh/chị chờ em chút, em kiểm tra đơn ngay ạ. |
+| Giỏ hàng trống | Không có sản phẩm nào trong giỏ hàng của bạn. | Giỏ hàng chưa có sản phẩm nào. |
+| Tiêu đề, tiền, ngày | Hướng Dẫn Thanh Toán: 250,000 VND trước 11/2/2026 | Hướng dẫn thanh toán: 250.000 đ trước 2/11/2026 |
 
-> **English.** Agent skills for Vietnamese: native prose without translationese, official documents and one-pagers built as .docx in the Nghị định 30/2020 layout, typography that keeps diacritics whole, and forms, search, sorting and formatting that fit Vietnamese names, addresses, phone numbers, money and dates.
-
-## Văn bản ra file .docx
+## Công văn, tờ trình ra file .docx
 
 ![Tờ trình một trang, đề nghị nằm ở câu đầu, bên cạnh phụ lục dự toán chi phí](https://github.com/quanvu309/qstack/releases/latest/download/one-pager.png)
 
-`vi-one-pager`: tờ trình gọn trong một trang A4. Đề nghị và số tiền nằm ngay câu đầu. Dự toán chi tiết dời sang Phụ lục II, phụ lục nào cũng sang trang mới và đánh số trang riêng từ 1. Khi dựng file với `--one-page`, script đếm chữ của trang chính và không dựng nếu quá 275 chữ, mức vừa một trang A4 theo thể thức Nghị định 30.
+Tờ trình một trang do `vi-one-pager` soạn. Ngay câu đầu đã nêu đề nghị và số tiền. Bảng dự toán nằm ở Phụ lục II, sang trang mới và đánh số trang riêng. Trang chính dài quá 275 chữ thì script không xuất file và nhắc dời bớt chi tiết sang phụ lục.
 
 ![Quyết định bổ nhiệm bên cạnh công văn, theo thể thức Nghị định 30/2020/NĐ-CP](https://github.com/quanvu309/qstack/releases/latest/download/official-documents.png)
 
-`vi-official-doc`: quyết định bổ nhiệm và công văn theo thể thức Nghị định 30/2020/NĐ-CP, với Quốc hiệu, Tiêu ngữ, số và ký hiệu, trích yếu, nơi nhận, chữ ký. Số liệu người dùng chưa đưa thì để trống trong ngoặc vuông, như "[số tài khoản]", thay vì bịa ra.
+Quyết định và công văn do `vi-official-doc` trình bày theo thể thức Nghị định 30/2020/NĐ-CP, từ Quốc hiệu, số ký hiệu đến nơi nhận và chữ ký. Thiếu thông tin nào, như số tài khoản, skill ghi "[số tài khoản]" để bạn điền, chứ không tự bịa.
 
-## Giao diện và dữ liệu
-
-Những lỗi chỉ lộ ra khi có dữ liệu tiếng Việt thật:
+## Lỗi chỉ gặp với dữ liệu tiếng Việt
 
 - **Sắp xếp.** Hàm sort mặc định xếp theo mã ký tự, nên "Ăn" và "Đông" đứng sau "Zô".
 
@@ -37,15 +35,15 @@ Những lỗi chỉ lộ ra khi có dữ liệu tiếng Việt thật:
   ["Zô", "Đông", "Ăn", "An"].sort(new Intl.Collator("vi").compare); // ["An", "Ăn", "Đông", "Zô"]
   ```
 
-- **Bỏ dấu để tìm kiếm.** "đ" là một chữ riêng, không phải "d" cộng dấu, nên bỏ dấu xong vẫn còn "đ". Gõ "duong" sẽ không tìm ra "Đường" nếu không đổi riêng chữ này.
+- **Tìm kiếm không dấu.** "đ" là một chữ riêng chứ không phải "d" thêm dấu, nên bỏ dấu xong vẫn còn "đ" và gõ "duong" không ra "Đường".
 
   ```js
   "Đường Hà Nội".normalize("NFD").replace(/\p{M}/gu, ""); // "Đuong Ha Noi"
   ```
 
-- **Tiền.** `parseFloat("1.000.000")` trả về `1`. `Intl` định dạng VND thì tự làm tròn số lẻ và chèn khoảng trắng không ngắt (U+00A0) trước ₫, test so chuỗi sẽ hỏng nếu không tính đến.
-- **Địa chỉ.** Từ 1/7/2025 không còn cấp huyện: form chỉ cần tỉnh/thành phố (34 đơn vị), xã/phường, rồi số nhà và đường (Nghị quyết 202/2025/QH15 và Luật Tổ chức chính quyền địa phương số 72/2025/QH15, kiểm tra ngày 2/11/2026). Danh sách 63 tỉnh hay ô "quận/huyện" là đã cũ.
-- **Font.** Font có "á" vẫn có thể thiếu "ơ, ư, ạ, ẫ". Khi đó trình duyệt lấy font khác vẽ riêng mấy chữ đó, chữ trông như ghép từ hai kiểu font. Script sau liệt kê mọi chữ, dấu và ký hiệu ₫ font còn thiếu, rồi trả mã lỗi 1 để chặn được trong CI. Chạy từ thư mục `skills/design/vi-typography`:
+- **Tiền.** `parseFloat("1.000.000")` trả về `1`. `Intl` in tiền đồng có khoảng trắng không ngắt (U+00A0) trước ₫, nên test so chuỗi hay hỏng đúng chỗ này.
+- **Địa chỉ.** Từ 1/7/2025 không còn cấp huyện. Form chỉ cần tỉnh/thành phố (34 đơn vị), xã/phường, rồi số nhà và tên đường (Nghị quyết 202/2025/QH15 và Luật Tổ chức chính quyền địa phương số 72/2025/QH15, kiểm tra ngày 2/11/2026).
+- **Font.** Font có "á" vẫn có thể thiếu "ơ, ư, ạ, ẫ", và trình duyệt mượn font khác cho riêng mấy chữ đó. Chạy lệnh dưới đây trong `skills/design/vi-typography` để in ra những chữ còn thiếu; lệnh thoát với mã 1 nên CI báo lỗi.
 
   ```bash
   uv run --with fonttools scripts/check-font.py <font-files>
@@ -96,7 +94,7 @@ Cài xong, chạy `/vi-setup` một lần trong mỗi dự án để chốt gi�
 
 ### Agent tự gọi
 
-- **[vi-writing](./skills/writing/vi-writing/SKILL.md)**: Viết, dịch và sửa tiếng Việt cho ra giọng người Việt: giữ một cặp xưng hô từ đầu đến cuối, chọn văn phong, rà 12 kiểu văn dịch, ghi đúng số, tiền, ngày tháng.
+- **[vi-writing](./skills/writing/vi-writing/SKILL.md)**: Viết, dịch và sửa tiếng Việt cho ra giọng người Việt: giữ một cặp xưng hô từ đầu đến cuối, chọn văn phong, rà 16 kiểu câu nghe như dịch hay như máy viết, ghi đúng số, tiền, ngày tháng.
 
 ## Văn bản
 
