@@ -1,0 +1,50 @@
+{
+  "type": "quyet-dinh",
+  "issuer": {
+    "parent": "TỔNG CÔNG TY ABC",
+    "name": "Công ty Cổ phần XYZ",
+    "abbr": "XYZ"
+  },
+  "number": 5,
+  "place": "Hà Nội",
+  "date": "2026-11-02",
+  "subject": "Về việc bổ nhiệm Trưởng phòng Kinh doanh",
+  "authority": "Giám đốc Công ty Cổ phần XYZ",
+  "basis": [
+    "Căn cứ Luật Doanh nghiệp số 59/2020/QH14 ngày 17 tháng 6 năm 2020",
+    "Căn cứ Điều lệ tổ chức và hoạt động của Công ty Cổ phần XYZ",
+    "Căn cứ Quy chế quản lý cán bộ của Công ty Cổ phần XYZ ban hành kèm theo Quyết định số 21/QĐ-XYZ ngày 05 tháng 3 năm 2025",
+    "Xét đề nghị của Trưởng phòng Hành chính - Nhân sự"
+  ],
+  "body": [
+    {
+      "lead": "Điều 1.",
+      "text": "Bổ nhiệm ông Nguyễn Văn An, sinh ngày 12 tháng 3 năm 1988, hiện giữ chức vụ Phó Trưởng phòng Kinh doanh, giữ chức vụ Trưởng phòng Kinh doanh của Công ty Cổ phần XYZ kể từ ngày 15 tháng 11 năm 2026."
+    },
+    {
+      "lead": "Điều 2.",
+      "text": "Ông Nguyễn Văn An được hưởng mức lương và phụ cấp chức vụ theo quy định hiện hành của Công ty. Thời hạn bổ nhiệm là 05 (năm) năm kể từ ngày Quyết định này có hiệu lực."
+    },
+    {
+      "lead": "Điều 3.",
+      "text": "Quyết định này có hiệu lực kể từ ngày ký."
+    },
+    {
+      "lead": "Điều 4.",
+      "text": "Trưởng phòng Hành chính - Nhân sự, Trưởng phòng Kế toán, ông Nguyễn Văn An và các đơn vị, cá nhân có liên quan chịu trách nhiệm thi hành Quyết định này."
+    }
+  ],
+  "recipients": [
+    "Như Điều 4",
+    "Ban Giám đốc",
+    "Lưu: VT, HCNS"
+  ],
+  "signers": [
+    {
+      "position": [
+        "GIÁM ĐỐC"
+      ],
+      "name": "Lê Hoàng Nam"
+    }
+  ]
+}

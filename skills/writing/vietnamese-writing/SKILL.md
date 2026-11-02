@@ -18,12 +18,13 @@ Every Vietnamese text speaks from one pronoun to another. Pick the **address pai
 | Bank, airline, hotel, insurer | chúng tôi / quý khách | "Quý khách vui lòng kiểm tra lại số tài khoản." |
 | Shop chat, sales, support agent | em / anh or chị (anh/chị when unknown) | "Dạ, em kiểm tra đơn cho anh/chị ngay ạ." |
 | Personal blog, essay | tôi / bạn (or các bạn) | "Tôi đã thử cách này suốt ba tháng." |
+| Official document (công văn, quyết định, tờ trình...) | the organisation by name / Quý cơ quan | call the Skill tool with "vietnamese-official-document" |
 
 Drop the pronoun whenever the sentence stands without it. Vietnamese omits subjects that English must state, so "Bạn có thể... Bạn cũng có thể... Bạn sẽ..." is translationese even when every pronoun is correct.
 
 ## 2. Pick the register
 
-Hán Việt words raise the register. Formal documents, contracts and legal text keep them. UI copy, chat and blog posts take the thuần Việt word when one exists:
+Hán Việt words raise the register. Official documents, contracts and legal text keep them. UI copy, chat and blog posts take the thuần Việt word when one exists:
 
 - sử dụng → dùng; tiến hành cài đặt → cài đặt; thực hiện + noun → the verb itself (thực hiện thanh toán → thanh toán)
 - nhằm mục đích → để; đối với → với; hiện tại as an adverb → hiện ("Hiện chưa có đơn hàng"), but keep it as the adjective "current" ("Mật khẩu hiện tại")
