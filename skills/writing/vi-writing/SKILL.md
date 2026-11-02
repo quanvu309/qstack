@@ -30,13 +30,13 @@ Hán Việt words raise the register. Official documents, contracts and legal te
 - nhằm mục đích → để; đối với → với; hiện tại as an adverb → hiện ("Hiện chưa có đơn hàng"), but keep it as the adjective "current" ("Mật khẩu hiện tại")
 - Keep a loanword the audience says aloud (email, app, link). Translate one they would not (feature → tính năng).
 
-## 3. Write, then run the translationese catalog
+## 3. Write, then run the catalog
 
 Check every sentence against every pattern. A pattern that fires gets rewritten as a whole sentence, never patched word by word.
 
 1. **Passive with "được/bị... bởi".** "Báo cáo đã được hoàn thành bởi nhóm." → "Nhóm đã làm xong báo cáo." Name the actor as subject. "Bởi" introducing an agent is the strongest single tell.
 2. **"Một cách" + adjective.** "xử lý một cách nhanh chóng" → "xử lý nhanh".
-3. **Nominalising with "việc", "sự".** "Việc sử dụng ứng dụng này mang lại sự tiết kiệm đáng kể về thời gian." → "Ứng dụng này giúp bạn tiết kiệm khá nhiều thời gian." Use the verb.
+3. **Nominalising with "việc", "sự".** "Việc sử dụng mật khẩu mạnh giúp cho sự bảo vệ tài khoản được tốt hơn." → "Dùng mật khẩu mạnh thì tài khoản khó bị chiếm hơn." Use the verb.
 4. **"Của bạn" for every "your".** "Vui lòng nhập mật khẩu của bạn." → "Nhập mật khẩu." Possession is implied.
 5. **"Các/những" for every English plural.** "Các người dùng có thể xuất các báo cáo." → "Người dùng có thể xuất báo cáo."
 6. **"Có thể" on an instruction.** "Bạn có thể nhấn vào đây để tải về." → "Nhấn vào đây để tải về." Keep "có thể" when permission or possibility is the point: "Bạn có thể hủy vé bất cứ lúc nào."
@@ -46,6 +46,12 @@ Check every sentence against every pattern. A pattern that fires gets rewritten 
 10. **"Hãy" on every instruction.** UI labels and steps take the bare verb ("Lưu", "Chọn tệp"). "Hãy" reads as preaching; keep it for an occasional call to action in marketing.
 11. **English punctuation habits.** Title Case headings ("Hướng Dẫn Sử Dụng" → "Hướng dẫn sử dụng"), the long dash (U+2014) as a clause joiner, chains of colons and semicolons. Use commas and full stops.
 12. **Long noun-stack subjects.** "Quy trình kiểm tra chất lượng sản phẩm đầu ra của nhà máy đã được cải thiện." → "Nhà máy đã cải thiện khâu kiểm tra chất lượng đầu ra."
+13. **Narrating the page.** A sentence that announces what comes next or describes the layout: "Dưới đây là...", "Bảng dưới đặt câu A cạnh câu B", "Bài viết này sẽ giới thiệu...". Delete it; the heading and the content do that job.
+14. **Clauses strung for rhythm.** Three parallel clauses in one sentence, there for cadence rather than meaning: "đọc vẫn ra giọng dịch, dựng form vẫn hỏi quận/huyện, xếp tên thì để Đông sau Zô". Keep the one the point needs, or give each its own sentence and its own evidence.
+15. **Wrap-up sentences.** A closing sentence that restates the paragraph in general terms: "Mỗi skill sửa một nhóm lỗi như vậy.", "Tất cả giúp bạn làm việc hiệu quả hơn." End on the last concrete fact instead.
+16. **Claims any product could make.** "giúp tiết kiệm thời gian", "dễ dàng", "nhanh chóng", "hiệu quả", "chuyên nghiệp". If the sentence could sit unchanged in another product's text, it says nothing about this one: replace it with the specific fact, number or example, or cut it.
+
+Patterns 1 to 12 catch English underneath the Vietnamese; 13 to 16 catch **machine tone** (giọng máy), text that is native in grammar but reads as generated.
 
 ## 4. UI copy
 
@@ -60,4 +66,4 @@ Headings are sentence case. Numbers, money, dates, times, quotes, tone mark plac
 
 ## Done when
 
-Every sentence has passed every catalog pattern, the address pair is the same from first line to last, and a native reader would not guess the text started in English. When editing someone else's text, report each rewrite as `before → after` with the pattern number, so the writer learns the pattern.
+Every sentence has passed every catalog pattern, the address pair is the same from first line to last, and a native reader would not guess the text started in English or came from a machine. When editing someone else's text, report each rewrite as `before → after` with the pattern number, so the writer learns the pattern.
