@@ -12,13 +12,13 @@ Mỗi skill đều ngắn, dễ sửa và ghép được với nhau. Bạn cứ 
 
 Tờ trình một trang do `vietnamese-one-pager` soạn: đề nghị nằm ngay đoạn đầu, dự toán chi tiết chuyển sang Phụ lục II. Mỗi phụ lục sang trang mới và đánh số trang riêng.
 
-![Tờ trình một trang và phụ lục dự toán chi phí](./docs/images/one-pager.png)
+![Tờ trình một trang và phụ lục dự toán chi phí](https://github.com/quanvu309/qstack/releases/latest/download/one-pager.png)
 
 Quyết định bổ nhiệm và công văn do `vietnamese-official-document` dựng thành file .docx, đúng thể thức Nghị định 30/2020/NĐ-CP: Quốc hiệu, Tiêu ngữ, số và ký hiệu, trích yếu, nơi nhận, chữ ký.
 
-![Quyết định bổ nhiệm và công văn theo thể thức Nghị định 30](./docs/images/official-documents.png)
+![Quyết định bổ nhiệm và công văn theo thể thức Nghị định 30](https://github.com/quanvu309/qstack/releases/latest/download/official-documents.png)
 
-Hai ảnh trên dựng từ các file mẫu trong `skills/writing/vietnamese-official-document/examples/` bằng `scripts/render-showcase.py`.
+Ảnh được dựng lại từ các file mẫu trong `skills/writing/vietnamese-official-document/examples/` mỗi lần phát hành phiên bản mới.
 
 ## Cài đặt
 

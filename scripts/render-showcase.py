@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Render the README showcase images from the example specs.
 
-Usage: uv run --with python-docx --with pymupdf --with pillow scripts/render-showcase.py
+Usage: uv run --with python-docx --with pymupdf --with pillow scripts/render-showcase.py [OUT_DIR]
 
 Needs LibreOffice. Set SOFFICE to its `soffice` binary when it is not on PATH.
-Writes docs/images/<name>.png; rerun after any change to the builder or the examples.
+Writes OUT_DIR/<name>.png (default dist/showcase). scripts/release.sh attaches them to each GitHub release.
 """
 
 import os
@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw
 
 REPO = Path(__file__).resolve().parent.parent
 SKILL = REPO / "skills/writing/vietnamese-official-document"
-OUT = REPO / "docs/images"
+OUT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else REPO / "dist/showcase"
 
 # image name -> pages shown side by side, each as (example spec, 1-based page)
 SHOWCASE = {
@@ -78,7 +78,7 @@ def main():
                     pdfs[example] = to_pdf(example, workdir)
             image = compose([page_image(pdfs[example], n) for example, n in pages])
             image.save(OUT / f"{name}.png", optimize=True)
-            print(f"wrote docs/images/{name}.png from {pages}")
+            print(f"wrote {OUT / name}.png from {pages}")
 
 
 if __name__ == "__main__":
