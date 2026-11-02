@@ -1,11 +1,12 @@
 qstack is a set of agent skills for writing and designing in Vietnamese. Skills live in bucket folders under `skills/`:
 
 - `writing/`: Vietnamese prose, UI copy, and the project voice
+- `documents/`: official documents and one-pagers, with the shared `.docx` builder
 - `design/`: typography, layout, and locale data for Vietnamese users
 - `in-progress/`: beta, public on purpose, not shipped in the plugin
 - `deprecated/`: no longer used
 
-`writing/` and `design/` are the **promoted** buckets. Create the other two only when a skill needs one.
+`writing/`, `documents/` and `design/` are the **promoted** buckets. Create the other two only when a skill needs one.
 
 Run `node scripts/check.mjs` after every change. It enforces the structural rules: frontmatter `name` equals the folder name, each skill has `agents/openai.yaml` whose `policy.allow_implicit_invocation: false` matches `disable-model-invocation: true`, every promoted skill (and only those) is listed in `.claude-plugin/plugin.json` and linked from the top-level `README.md`, every skill is linked from its bucket `README.md`, relative links resolve, text is Unicode NFC, and no file contains the long dash (U+2014). Run `claude plugin validate . --strict` after touching either file in `.claude-plugin/`.
 
@@ -17,9 +18,18 @@ Language split:
 
 - Skill bodies, reference files and this file are English, because agents follow English instructions most predictably. Every example of Vietnamese text inside them is Vietnamese.
 - `README.md`, bucket `README.md`s and `CONTRIBUTING.md` are Vietnamese, because they are for the people who use the skills.
-- Vietnamese text in this repo follows `skills/writing/vietnamese-writing`, the same rules the skills teach.
+- Vietnamese text in this repo follows `skills/writing/vi-writing`, the same rules the skills teach.
 
 A fact about Vietnam that can change (administrative units, phone formats, laws, font support) carries its source and the date it was checked, in the same sentence. Every Vietnamese example must read as native to a native speaker; a skill that teaches translationese with translationese examples teaches the wrong thing.
+
+## Vietnamese voice
+
+- Address pair: the docs speak to "bạn" and drop the pronoun whenever the sentence stands without it. "Chạy `/vi-setup` một lần trong mỗi dự án."
+- Register: plain thuần Việt. "Skill giúp agent viết tiếng Việt tự nhiên, không mang giọng dịch."
+- Spelling: old tone style with y (hòa, thủy, kỹ).
+- Loanwords stay English: skill, agent, plugin, README, fork, issue, pull request, CI, file, script, font.
+- Money and dates: đ; 2/11/2026; 14:30.
+- Regional vocabulary: national.
 
 ## Grouping in READMEs
 

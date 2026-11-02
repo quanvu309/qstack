@@ -1,5 +1,5 @@
 ---
-name: vietnamese-locale
+name: vi-locale
 description: Build forms, validation, search, sorting and formatting that fit Vietnamese users (vi-VN): names, addresses, phone numbers, money, dates, diacritics. Use when designing or coding any of these for Vietnam, or when Vietnamese text fails to match, sort, or slug.
 ---
 

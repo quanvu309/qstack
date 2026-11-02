@@ -1,5 +1,5 @@
 ---
-name: vietnamese-official-document
+name: vi-official-doc
 description: Draft and build Vietnamese official documents (văn bản hành chính) in government or corporate tone and the Nghị định 30/2020 layout. Use for quyết định, công văn, tờ trình, thông báo, báo cáo, kế hoạch, biên bản, giấy mời, giấy giới thiệu, or when asked for a .docx in that format.
 ---
 
@@ -56,7 +56,7 @@ A document closes once. "Kính trình... xem xét, phê duyệt./." ends a tờ 
 
 ## 3. Run the translationese catalog
 
-Call the Skill tool with "vietnamese-writing" and check every sentence of the draft against its translationese catalog. Its register advice (thuần Việt over Hán Việt) does not apply here; every catalog pattern does. This step is done when you have rewritten each sentence a pattern caught, or confirmed none did.
+Call the Skill tool with "vi-writing" and check every sentence of the draft against its translationese catalog. Its register advice (thuần Việt over Hán Việt) does not apply here; every catalog pattern does. This step is done when you have rewritten each sentence a pattern caught, or confirmed none did.
 
 ## 4. Deliver
 

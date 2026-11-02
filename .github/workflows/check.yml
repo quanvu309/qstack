@@ -15,4 +15,4 @@ jobs:
           node-version: 22
       - run: node scripts/check.mjs
       - uses: astral-sh/setup-uv@v6
-      - run: uv run --with python-docx --with pytest pytest -q skills/writing/vietnamese-official-document/scripts
+      - run: uv run --with python-docx --with pytest pytest -q skills/documents/vi-official-doc/scripts
