@@ -1,5 +1,5 @@
 ---
-name: vietnamese-one-pager
+name: vi-one-pager
 description: Write a Vietnamese one-pager, a tờ trình, progress update or proposal that a reader can decide from on one page, with the detail moved into phụ lục that can be added later. Use when asked for a one-pager, tóm tắt một trang, tờ trình ngắn, báo cáo nhanh, cập nhật tiến độ, or đề xuất, when cutting a long document down to one page, or when adding a phụ lục to one.
 ---
 
@@ -59,8 +59,8 @@ When the user later brings the detail for a phụ lục, add it under its listed
 
 ## 5. Deliver
 
-- **Official** (a tờ trình or báo cáo to a superior, in the Nghị định 30 layout): call the Skill tool with "vietnamese-official-document" for its tone rules and its `.docx` builder. Use type `to-trinh` or `bao-cao`, and put each phụ lục in the spec's `appendices` list, in page order, with tables as `{"table": [...]}` blocks. Build with `--one-page`: the builder prints the page's chữ count, or refuses the spec when the page is over 275 chữ, and then you cut per step 3 and build again. Adding a phụ lục later means appending to `appendices` and rebuilding with the same flag.
-- **Internal** (email, chat, slide, wiki): no Quốc hiệu header. The subject line carries the lead sentence: "[Cập nhật] ERP giai đoạn 1: chậm 2 tuần, cần bổ sung 2 kỹ sư trước 20/11". Call the Skill tool with "vietnamese-writing" for the register and the translationese check. The same skeleton and budget apply.
+- **Official** (a tờ trình or báo cáo to a superior, in the Nghị định 30 layout): call the Skill tool with "vi-official-doc" for its tone rules and its `.docx` builder. Use type `to-trinh` or `bao-cao`, and put each phụ lục in the spec's `appendices` list, in page order, with tables as `{"table": [...]}` blocks. Build with `--one-page`: the builder prints the page's chữ count, or refuses the spec when the page is over 275 chữ, and then you cut per step 3 and build again. Adding a phụ lục later means appending to `appendices` and rebuilding with the same flag.
+- **Internal** (email, chat, slide, wiki): no Quốc hiệu header. The subject line carries the lead sentence: "[Cập nhật] ERP giai đoạn 1: chậm 2 tuần, cần bổ sung 2 kỹ sư trước 20/11". Call the Skill tool with "vi-writing" for the register and the translationese check. The same skeleton and budget apply.
 
 ## Done when
 

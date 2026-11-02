@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.3
+
+- Skills renamed with a short `vi-` prefix: `vietnamese-writing` → `vi-writing`, `setup-qstack` → `vi-setup`, `vietnamese-official-document` → `vi-official-doc`, `vietnamese-one-pager` → `vi-one-pager`, `vietnamese-typography` → `vi-typography`, `vietnamese-locale` → `vi-locale`. Run `/vi-setup` where you ran `/setup-qstack`.
+- New `documents/` bucket holds `vi-official-doc` and `vi-one-pager`.
+- The READMEs and CONTRIBUTING are rewritten with `vi-writing`, in the project voice now recorded in `AGENTS.md`.
+
 ## 0.0.2
 
 - New skill `vietnamese-one-pager`: one-page tờ trình, updates and proposals, answer first, with a page budget measured by rendering and phụ lục that can be added later.

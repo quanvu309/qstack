@@ -6,7 +6,7 @@ import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const PROMOTED = ["writing", "design"];
+const PROMOTED = ["writing", "documents", "design"];
 const BUCKETS = [...PROMOTED, "in-progress", "deprecated"];
 const errors = [];
 const fail = (file, msg) => errors.push(`${relative(repo, file) || "."}: ${msg}`);

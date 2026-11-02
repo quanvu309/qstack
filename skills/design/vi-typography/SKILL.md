@@ -1,5 +1,5 @@
 ---
-name: vietnamese-typography
+name: vi-typography
 description: Set Vietnamese type that renders whole: font coverage, diacritic clipping, line height, line breaks. Use when choosing or loading fonts for a Vietnamese (tiếng Việt) interface, styling Vietnamese text, or when dấu look clipped, misplaced, or in a different font.
 ---
 

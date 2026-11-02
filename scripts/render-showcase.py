@@ -21,7 +21,7 @@ import pymupdf
 from PIL import Image, ImageEnhance, ImageFilter
 
 REPO = Path(__file__).resolve().parent.parent
-SKILL = REPO / "skills/writing/vietnamese-official-document"
+SKILL = REPO / "skills/documents/vi-official-doc"
 OUT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else REPO / "dist/showcase"
 
 # image name -> pages shown side by side, each as (example spec, 1-based page)

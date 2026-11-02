@@ -1,5 +1,5 @@
 ---
-name: setup-qstack
+name: vi-setup
 description: Set this project's Vietnamese voice once (xưng hô, register, spelling, money and date forms) so every qstack skill writes the same way.
 disable-model-invocation: true
 ---
