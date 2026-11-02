@@ -1,0 +1,5 @@
+interface:
+  display_name: "Setup qstack"
+  short_description: "Set the project's Vietnamese voice once"
+policy:
+  allow_implicit_invocation: false

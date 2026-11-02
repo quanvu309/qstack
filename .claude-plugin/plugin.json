@@ -1,0 +1,26 @@
+{
+  "name": "qstack",
+  "version": "0.1.0",
+  "description": "Agent skills for writing and designing in Vietnamese: native prose without translationese, typography that keeps diacritics whole, and forms that fit Vietnamese names, addresses and money.",
+  "author": {
+    "name": "rickvu",
+    "url": "https://github.com/quanvu309"
+  },
+  "homepage": "https://github.com/quanvu309/qstack",
+  "repository": "https://github.com/quanvu309/qstack",
+  "license": "MIT",
+  "keywords": [
+    "vietnamese",
+    "tieng-viet",
+    "writing",
+    "typography",
+    "localization",
+    "skills"
+  ],
+  "skills": [
+    "./skills/writing/vietnamese-writing",
+    "./skills/writing/setup-qstack",
+    "./skills/design/vietnamese-typography",
+    "./skills/design/vietnamese-locale"
+  ]
+}

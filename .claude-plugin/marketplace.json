@@ -1,0 +1,22 @@
+{
+  "name": "qstack",
+  "owner": {
+    "name": "rickvu",
+    "url": "https://github.com/quanvu309"
+  },
+  "description": "qstack: agent skills for writing and designing in Vietnamese.",
+  "plugins": [
+    {
+      "name": "qstack",
+      "source": "./",
+      "description": "Agent skills for writing and designing in Vietnamese (native prose, xưng hô, typography, locale data).",
+      "category": "productivity",
+      "keywords": [
+        "vietnamese",
+        "writing",
+        "typography",
+        "localization"
+      ]
+    }
+  ]
+}
