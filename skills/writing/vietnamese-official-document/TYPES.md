@@ -35,7 +35,7 @@ Asks, answers, informs, or follows up with another organisation. It has no title
 
 ## Tờ trình
 
-Proposes a matter to a superior for approval. Every claim argues for the approval.
+Proposes a matter to a superior for approval. Every claim argues for the approval. For a one-page tờ trình with the detail in phụ lục, call the Skill tool with "vietnamese-one-pager".
 
 1. Title "TỜ TRÌNH", trích yếu "Về việc [đề nghị phê duyệt...]".
 2. Kính gửi: the approving body ("Hội đồng quản trị Công ty Cổ phần XYZ").

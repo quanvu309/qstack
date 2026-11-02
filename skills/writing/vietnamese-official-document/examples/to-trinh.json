@@ -1,0 +1,92 @@
+{
+  "type": "to-trinh",
+  "issuer": {
+    "parent": "TỔNG CÔNG TY ABC",
+    "name": "Công ty Cổ phần XYZ",
+    "abbr": "XYZ"
+  },
+  "number": 8,
+  "place": "Hà Nội",
+  "date": "2027-01-05",
+  "subject": "Về việc phê duyệt chủ trương nâng cấp hệ thống quản lý kho",
+  "to": [
+    "Hội đồng quản trị Công ty Cổ phần XYZ"
+  ],
+  "basis": [
+    "Căn cứ Điều lệ tổ chức và hoạt động của Công ty Cổ phần XYZ",
+    "Căn cứ Kế hoạch sản xuất kinh doanh năm 2027 đã được Hội đồng quản trị thông qua"
+  ],
+  "body": [
+    "Ban Giám đốc kính trình Hội đồng quản trị xem xét, phê duyệt chủ trương nâng cấp hệ thống quản lý kho tại Trung tâm phân phối Hà Nội, với tổng dự toán 1.250.000.000 đồng, nguồn vốn từ quỹ đầu tư phát triển.",
+    {
+      "lead": "Sự cần thiết.",
+      "text": "Hệ thống hiện tại vận hành từ năm 2018, sai lệch tồn kho bình quân 3,2% mỗi quý và không đáp ứng được lượng đơn hàng dự kiến tăng 40% trong năm 2027."
+    },
+    {
+      "lead": "Phương án đề xuất.",
+      "text": "Triển khai trong sáu tháng đầu năm 2027 gồm thay thế phần mềm quản lý, trang bị thiết bị quét mã vạch và đào tạo nhân viên kho. Nội dung chi tiết được trình bày tại Phụ lục I; dự toán chi phí được trình bày tại Phụ lục II."
+    },
+    "Kính trình Hội đồng quản trị xem xét, quyết định."
+  ],
+  "appendices": [
+    {
+      "title": "Thuyết minh phương án nâng cấp",
+      "body": [
+        {
+          "heading": "1. Hiện trạng"
+        },
+        "Hệ thống quản lý kho hiện nay chạy trên máy chủ đặt tại Trung tâm phân phối Hà Nội, đã hết thời hạn bảo hành từ tháng 6 năm 2024. Việc nhập, xuất kho vẫn được đối chiếu thủ công với sổ sách, nên mỗi quý phải dành khoảng ba ngày để kiểm kê và điều chỉnh số liệu.",
+        {
+          "heading": "2. Nội dung nâng cấp"
+        },
+        {
+          "lead": "Phần mềm.",
+          "text": "Thay thế bằng phần mềm quản lý kho trên nền tảng điện toán đám mây, kết nối trực tiếp với phần mềm kế toán đang sử dụng."
+        },
+        {
+          "lead": "Thiết bị.",
+          "text": "Trang bị 20 máy quét mã vạch cầm tay và 4 máy in tem nhãn cho các khu nhập, xuất và lưu kho."
+        },
+        {
+          "lead": "Đào tạo.",
+          "text": "Tập huấn cho toàn bộ 35 nhân viên kho và nhân viên kế toán kho trước khi đưa hệ thống vào vận hành chính thức."
+        },
+        {
+          "heading": "3. Tiến độ"
+        },
+        "Dự kiến lựa chọn nhà cung cấp trong tháng 2 năm 2027, triển khai và chạy thử trong các tháng 3 đến tháng 5, vận hành chính thức từ ngày 01 tháng 6 năm 2027."
+      ]
+    },
+    {
+      "title": "Dự toán chi phí",
+      "body": [
+        "Dự toán dưới đây đã bao gồm thuế giá trị gia tăng; đơn vị tính là đồng.",
+        {
+          "table": [
+            ["STT", "Hạng mục", "Đơn vị tính", "Số lượng", "Đơn giá", "Thành tiền"],
+            ["1", "Giấy phép phần mềm quản lý kho (3 năm)", "Gói", "1", "620.000.000", "620.000.000"],
+            ["2", "Máy quét mã vạch cầm tay", "Cái", "20", "12.500.000", "250.000.000"],
+            ["3", "Máy in tem nhãn", "Cái", "4", "22.500.000", "90.000.000"],
+            ["4", "Triển khai, cài đặt và chuyển đổi dữ liệu", "Gói", "1", "190.000.000", "190.000.000"],
+            ["5", "Đào tạo và hỗ trợ vận hành", "Gói", "1", "100.000.000", "100.000.000"],
+            ["", "Tổng cộng", "", "", "", "1.250.000.000"]
+          ]
+        },
+        "Chi phí phát sinh ngoài dự toán (nếu có) do Ban Giám đốc báo cáo Hội đồng quản trị trước khi thực hiện."
+      ]
+    }
+  ],
+  "recipients": [
+    "Như trên",
+    "Ban Kiểm soát",
+    "Lưu: VT, HCNS"
+  ],
+  "signers": [
+    {
+      "position": [
+        "GIÁM ĐỐC"
+      ],
+      "name": "Lê Hoàng Nam"
+    }
+  ]
+}

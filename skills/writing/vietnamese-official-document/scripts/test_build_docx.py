@@ -6,7 +6,9 @@ from pathlib import Path
 
 import pytest
 from docx import Document
-from docx.shared import Mm
+from docx.enum.section import WD_SECTION
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
+from docx.shared import Mm, Pt
 
 LONG_DASH = chr(0x2014)
 HERE = Path(__file__).resolve().parent
@@ -290,3 +292,214 @@ def test_help_lists_fields_and_type_codes():
     assert proc.returncode == 0
     for word in ("issuer", "unit", "authority", "basis", "recipients", "signers", *build_docx.TYPES):
         assert word in proc.stdout
+
+
+W_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+TTR_NUMBERED = "(Kèm theo Tờ trình số 08/TTr-XYZ ngày 05 tháng 01 năm 2027 của Công ty Cổ phần XYZ)"
+
+
+@pytest.fixture(scope="module")
+def to_trinh(tmp_path_factory):
+    return build(tmp_path_factory.mktemp("to-trinh"), load("to-trinh"), "to-trinh")
+
+
+def section_texts(doc):
+    """Text paragraphs of each section, split at the paragraphs that carry a section break."""
+    groups, current = [], []
+    for el in doc.element.body:
+        if el.tag == f"{W_NS}p":
+            text = "".join(t.text or "" for t in el.iter(f"{W_NS}t")).strip()
+            if text:
+                current.append(text)
+            if el.find(f"{W_NS}pPr/{W_NS}sectPr") is not None:
+                groups.append(current)
+                current = []
+    groups.append(current)
+    return groups
+
+
+def test_appendices_start_new_numbered_sections(to_trinh):
+    secs = to_trinh.sections
+    assert len(secs) == 3
+    assert secs[0]._sectPr.find(f"{W_NS}pgNumType") is None
+    for sec in secs[1:]:
+        assert sec._sectPr.find(f"{W_NS}pgNumType").get(f"{W_NS}start") == "1"
+        assert sec.start_type == WD_SECTION.NEW_PAGE
+        assert sec.different_first_page_header_footer is True
+        assert not sec.header.is_linked_to_previous
+        assert "PAGE" in sec.header._element.xml
+        assert "PAGE" not in sec.first_page_header._element.xml
+        for actual, mm in ((sec.page_width, 210), (sec.left_margin, 30), (sec.right_margin, 15),
+                           (sec.top_margin, 20)):
+            assert abs(actual - Mm(mm)) < Mm(0.1)
+
+
+def test_appendix_heading_lines(to_trinh):
+    first, second = section_texts(to_trinh)[1:]
+    assert first[:3] == ["Phụ lục I", "THUYẾT MINH PHƯƠNG ÁN NÂNG CẤP", TTR_NUMBERED]
+    assert second[:3] == ["Phụ lục II", "DỰ TOÁN CHI PHÍ", TTR_NUMBERED]
+    heading = [p for p in to_trinh.paragraphs if p.text == "Phụ lục II"][0]
+    runs = heading.runs
+    assert heading.alignment == WD_ALIGN_PARAGRAPH.CENTER
+    assert runs[0].font.bold and runs[0].font.size == Pt(14)
+    kem = [p for p in to_trinh.paragraphs if p.text == TTR_NUMBERED][0]
+    assert kem.runs[0].font.italic and kem.runs[0].font.size == Pt(14)
+
+
+def test_single_appendix_is_plain_phu_luc(tmp_path):
+    spec = load("to-trinh")
+    spec["appendices"] = spec["appendices"][:1]
+    doc = build(tmp_path, spec)
+    assert len(doc.sections) == 2
+    assert section_texts(doc)[1][0] == "Phụ lục"
+
+
+def test_kem_theo_with_blank_number_and_month_only_date(tmp_path):
+    spec = load("to-trinh")
+    del spec["number"]
+    spec["date"] = "2027-01"
+    doc = build(tmp_path, spec)
+    assert section_texts(doc)[1][2] == (
+        "(Kèm theo Tờ trình số      /TTr-XYZ ngày      tháng 01 năm 2027 của Công ty Cổ phần XYZ)")
+
+
+def test_kem_theo_for_bien_ban_has_no_date(tmp_path):
+    spec = load("bien-ban")
+    spec["appendices"] = [{"title": "Danh sách", "body": ["Nội dung."]}]
+    kem = section_texts(build(tmp_path, spec))[1][2]
+    assert kem.startswith("(Kèm theo Biên bản số 07/BB-XYZ của ")
+    assert "ngày" not in kem
+
+
+def test_kem_theo_for_cong_van(tmp_path):
+    spec = load("cong-van")
+    spec["appendices"] = [{"title": "Danh mục", "body": ["Nội dung."]}]
+    assert section_texts(build(tmp_path, spec))[1][2].startswith("(Kèm theo Công văn số 12/XYZ-HCNS ngày")
+
+
+def test_table_header_is_bold_repeating_and_numbers_align_right(to_trinh):
+    table = to_trinh.tables[-1]
+    assert len(table.rows) == 7 and len(table.columns) == 6
+    assert table.rows[0]._tr.trPr.find(f"{W_NS}tblHeader") is not None
+    assert table.rows[1]._tr.trPr.find(f"{W_NS}tblHeader") is None
+    for cell in table.rows[0].cells:
+        assert cell.paragraphs[0].alignment == WD_ALIGN_PARAGRAPH.CENTER
+        assert all(r.font.bold for r in cell.paragraphs[0].runs)
+    assert table.rows[1].cells[5].paragraphs[0].alignment == WD_ALIGN_PARAGRAPH.RIGHT
+    assert table.rows[1].cells[1].paragraphs[0].alignment == WD_ALIGN_PARAGRAPH.LEFT
+    assert table.rows[1].cells[0].paragraphs[0].alignment == WD_ALIGN_PARAGRAPH.CENTER
+    assert not table.rows[1].cells[1].paragraphs[0].runs[0].font.bold
+    assert table.rows[1].cells[1].paragraphs[0].runs[0].font.size == Pt(13)
+    assert "w:tblBorders" in table._tbl.xml
+    assert abs(sum(c.width for c in table.rows[0].cells) - Mm(165)) < Mm(0.5)
+
+
+def test_slash_dot_only_after_text(tmp_path, to_trinh):
+    first, second = section_texts(to_trinh)[1:]
+    assert first[-1].endswith("2027./.")
+    assert second[-1].endswith("thực hiện./.")
+    spec = load("to-trinh")
+    spec["appendices"][1]["body"].pop()
+    doc = build(tmp_path, spec)
+    last = section_texts(doc)[2]
+    assert "/." not in " ".join(last)
+    assert not any(p.text.endswith("/.") for p in doc.paragraphs[-3:])
+
+
+def test_main_body_ending_in_table_gets_no_marker(tmp_path):
+    spec = load("to-trinh")
+    spec["body"] = ["Kính trình xem xét.", {"table": [["A", "B"], ["1", "2"]]}]
+    doc = build(tmp_path, spec)
+    assert not any(p.text.endswith("/.") for p in doc.paragraphs[:12])
+    assert len(doc.tables) == 4
+
+
+def test_no_appendices_means_one_section(tmp_path):
+    spec = load("to-trinh")
+    del spec["appendices"]
+    assert len(build(tmp_path, spec).sections) == 1
+
+
+@pytest.mark.parametrize("mutate,needle", [
+    (lambda s: s.__setitem__("appendices", []), '"appendices" must be a non-empty list'),
+    (lambda s: s["appendices"][1].pop("title"), '"appendices[1].title" must be a non-empty string'),
+    (lambda s: s["appendices"][0].__setitem__("body", []), '"appendices[0].body" must be a non-empty list'),
+    (lambda s: s["appendices"][1]["body"][1]["table"][2].pop(), '"appendices[1].body[1].table" rows must all have 6 cells'),
+    (lambda s: s["appendices"][1]["body"][1].__setitem__("table", [["A", "B"]]),
+     '"appendices[1].body[1].table" must be a list of at least 2 rows'),
+    (lambda s: s["appendices"][1]["body"][1].__setitem__("table", [["A", 1], ["B", 2]]),
+     '"appendices[1].body[1].table" rows must be non-empty lists of strings'),
+    (lambda s: s["appendices"][0].__setitem__("note", "x"), 'unknown field "appendices[0].note"'),
+    (lambda s: s["body"].append({"table": [["A"], ["B", "C"]]}), '"body[4].table" rows must all have 1 cells'),
+])
+def test_appendix_and_table_validation(tmp_path, mutate, needle):
+    spec = load("to-trinh")
+    mutate(spec)
+    proc, out = run_cli(tmp_path, spec)
+    assert proc.returncode == 2
+    assert f"error: {needle}" in proc.stderr
+    assert not out.exists()
+
+
+def test_appendices_allowed_on_every_type(tmp_path):
+    base = load("quyet-dinh")
+    for code in build_docx.TYPES:
+        spec = {k: v for k, v in base.items() if k not in ("authority", "basis")}
+        spec["type"] = code
+        if build_docx.TYPES[code].authority:
+            spec.update(authority=base["authority"], basis=base["basis"])
+        if code == "cong-van":
+            spec.update(unit="HCNS", to=["Công ty TNHH DEF"])
+        if code == "bien-ban":
+            spec.update(signers=load("bien-ban")["signers"])
+            del spec["place"], spec["date"]
+        spec["appendices"] = [{"title": "Chi tiết", "body": [{"table": [["A"], ["1"]]}]}]
+        assert len(build(tmp_path, spec, code).sections) == 2
+
+
+def assert_tiny(p):
+    pf = p.paragraph_format
+    assert pf.line_spacing_rule == WD_LINE_SPACING.EXACTLY and pf.line_spacing == Pt(1)
+    assert pf.space_before == Pt(0) and pf.space_after == Pt(0)
+    assert p._p.pPr.find(f"{W_NS}rPr/{W_NS}sz").get(f"{W_NS}val") == "2"
+
+
+def test_trailing_paragraph_is_one_point_high(built, to_trinh):
+    assert_tiny(built["quyet-dinh"].paragraphs[-1])
+    assert_tiny(to_trinh.paragraphs[-1])
+
+
+def test_section_break_paragraphs_are_one_point_high(to_trinh):
+    breaks = [p for p in to_trinh.paragraphs if p._p.find(f"{W_NS}pPr/{W_NS}sectPr") is not None]
+    assert len(breaks) == 2
+    for p in breaks:
+        assert_tiny(p)
+        children = [c.tag for c in p._p.pPr]
+        assert children.index(f"{W_NS}rPr") < children.index(f"{W_NS}sectPr")
+
+
+def test_kinh_gui_comes_before_basis_in_to_trinh(tmp_path):
+    doc = build(tmp_path, load("to-trinh"))
+    texts = [p.text for p in doc.paragraphs]
+    kinh_gui = next(i for i, t in enumerate(texts) if t.startswith("Kính gửi"))
+    basis = next(i for i, t in enumerate(texts) if t.startswith("Căn cứ"))
+    assert kinh_gui < basis
+
+
+def test_one_page_refuses_an_overlong_main_page(tmp_path, capsys):
+    spec = load("to-trinh")
+    spec["body"] = spec["body"] + ["chữ " * 300]
+    path = tmp_path / "long.json"
+    path.write_text(json.dumps(spec, ensure_ascii=False), encoding="utf-8")
+    out = tmp_path / "long.docx"
+    assert build_docx.main([str(path), str(out), "--one-page"]) == 2
+    assert not out.exists()
+    assert "Move detail into a phụ lục" in capsys.readouterr().err
+
+
+def test_one_page_reports_the_count_when_it_fits(tmp_path, capsys):
+    path = EXAMPLES / "to-trinh.json"
+    out = tmp_path / "ok.docx"
+    assert build_docx.main([str(path), str(out), "--one-page"]) == 0
+    assert out.exists()
+    assert "/275 chữ" in capsys.readouterr().out

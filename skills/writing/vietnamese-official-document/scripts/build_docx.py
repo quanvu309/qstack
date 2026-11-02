@@ -13,7 +13,7 @@ import unicodedata
 from dataclasses import dataclass
 
 from docx import Document
-from docx.enum.section import WD_ORIENT
+from docx.enum.section import WD_ORIENT, WD_SECTION
 from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.oxml import OxmlElement
@@ -33,13 +33,15 @@ INDENT_MM = 12.7  # 1.27 cm first-line indent of the content
 SIGN_GAP_PT = 62  # about 4 empty lines for signature and seal
 LINE_PT = 16  # one 14 pt line, used to keep two signers' names on the same row
 BODY_LINE = 1.15  # decree allows single to 1.5
+# Measured by rendering to-trinh specs with LibreOffice 26.8 (2026-11-02): 275 chữ fit at 5, 8 and 11 paragraphs.
+ONE_PAGE_CHU = 275
 
 QUOC_HIEU = "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM"
 TIEU_NGU = "Độc lập - Tự do - Hạnh phúc"
 
 # Sizes follow the decree's table V example set.
 S_QUOC_HIEU, S_TIEU_NGU, S_ORG, S_SO, S_VV, S_DATE = 12, 13, 12, 13, 12, 13
-S_BODY, S_NOI_NHAN, S_LIST, S_PAGE = 14, 12, 11, 14
+S_BODY, S_NOI_NHAN, S_LIST, S_PAGE, S_TABLE = 14, 12, 11, 14, 13
 
 
 @dataclass(frozen=True)
@@ -70,7 +72,8 @@ TYPES = {
 }
 
 FIELDS = {"type", "issuer", "unit", "number", "place", "date", "subject", "to", "authority",
-          "basis", "body", "recipients", "signers"}
+          "basis", "body", "appendices", "recipients", "signers"}
+NUMERIC = re.compile(r"[\d.,% ]+")
 
 
 def nfc(value):
@@ -97,6 +100,48 @@ def parse_date(value):
     except ValueError:
         return None
     return year, month, day
+
+
+def check_table(rows, path, errs):
+    if not (isinstance(rows, list) and len(rows) >= 2):
+        errs.append(f'error: "{path}" must be a list of at least 2 rows (header + 1)')
+    elif not all(isinstance(r, list) and r and all(isinstance(c, str) for c in r) for r in rows):
+        errs.append(f'error: "{path}" rows must be non-empty lists of strings')
+    elif len({len(r) for r in rows}) > 1:
+        errs.append(f'error: "{path}" rows must all have {len(rows[0])} cells')
+
+
+def check_blocks(blocks, path, errs):
+    for i, block in enumerate(blocks):
+        at = f"{path}[{i}]"
+        if isinstance(block, dict) and set(block) == {"table"}:
+            check_table(block["table"], f"{at}.table", errs)
+            continue
+        ok = is_text(block) or (isinstance(block, dict) and (
+            (set(block) == {"heading"} and is_text(block["heading"]))
+            or (set(block) == {"lead", "text"} and is_text(block["lead"]) and is_text(block["text"]))))
+        if not ok:
+            errs.append(f'error: "{at}" must be a string, {{"heading"}}, {{"lead","text"}} '
+                        'or {"table"}')
+
+
+def check_appendices(appendices, errs):
+    if not (isinstance(appendices, list) and appendices):
+        errs.append('error: "appendices" must be a non-empty list of {"title","body"}')
+        return
+    for i, item in enumerate(appendices):
+        at = f"appendices[{i}]"
+        if not isinstance(item, dict):
+            errs.append(f'error: "{at}" must be an object with "title" and "body"')
+            continue
+        errs.extend(f'error: unknown field "{at}.{k}"' for k in item if k not in ("title", "body"))
+        if not is_text(item.get("title")):
+            errs.append(f'error: "{at}.title" must be a non-empty string')
+        body = item.get("body")
+        if not (isinstance(body, list) and body):
+            errs.append(f'error: "{at}.body" must be a non-empty list')
+        else:
+            check_blocks(body, f"{at}.body", errs)
 
 
 def validate(spec):
@@ -163,12 +208,9 @@ def validate(spec):
     if not isinstance(body, list) or not body:
         errs.append(f'error: {code} requires "body" as a non-empty list')
     else:
-        for i, block in enumerate(body):
-            ok = is_text(block) or (isinstance(block, dict) and (
-                (set(block) == {"heading"} and is_text(block["heading"]))
-                or (set(block) == {"lead", "text"} and is_text(block["lead"]) and is_text(block["text"]))))
-            if not ok:
-                errs.append(f'error: "body[{i}]" must be a string, {{"heading"}} or {{"lead","text"}}')
+        check_blocks(body, "body", errs)
+    if "appendices" in spec:
+        check_appendices(spec["appendices"], errs)
 
     signers = spec.get("signers")
     if not isinstance(signers, list) or len(signers) != dt.signers:
@@ -191,20 +233,40 @@ def so_ky_hieu(spec, dt):
     return f"{abbr}-{spec['unit']}" if dt.unit else f"{dt.abbr}-{abbr}"
 
 
-def format_so(spec, dt):
+def so_tail(spec, dt):
     ky_hieu = so_ky_hieu(spec, dt)
     n = spec.get("number")
-    if n is None:
-        return f"Số:{BLANK}/{ky_hieu}"
-    return f"Số: {n:02d}/{ky_hieu}"
+    return f"{BLANK}/{ky_hieu}" if n is None else f" {n:02d}/{ky_hieu}"
 
 
-def format_date(place, date):
+def format_so(spec, dt):
+    return f"Số:{so_tail(spec, dt)}"
+
+
+def date_part(date):
     year, month, day = parse_date(date)
     day_text = BLANK if day is None else (f"{day:02d}" if day < 10 else str(day))
     month_text = f"{month:02d}" if month < 3 else str(month)
     sep = "" if day is None else " "
-    return f"{place}, ngày{sep}{day_text}{sep}tháng {month_text} năm {year}"
+    return f"ngày{sep}{day_text}{sep}tháng {month_text} năm {year}"
+
+
+def format_date(place, date):
+    return f"{place}, {date_part(date)}"
+
+
+def kem_theo(spec, dt):
+    noun = dt.title.capitalize() if dt.title else "Công văn"
+    when = f" {date_part(spec['date'])}" if dt.dated else ""
+    return f"(Kèm theo {noun} số{so_tail(spec, dt)}{when} của {spec['issuer']['name']})"
+
+
+def roman(n):
+    out = ""
+    for value, sym in ((10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")):
+        while n >= value:
+            out, n = out + sym, n - value
+    return out
 
 
 def strip_end(text):
@@ -371,6 +433,9 @@ def add_title_block(doc, spec, dt):
     if dt.authority:
         add_para(doc, [(spec["authority"].upper(), 14, True, False)], CENTER, before=12, after=6,
                  keep=True)
+
+
+def add_basis(doc, spec, dt):
     if "basis" in spec:
         for line in punctuated(spec["basis"]):
             add_para(doc, [(line, S_BODY, False, True)], JUSTIFY, after=6, line=BODY_LINE,
@@ -379,9 +444,84 @@ def add_title_block(doc, spec, dt):
         add_para(doc, [("QUYẾT ĐỊNH:", 14, True, False)], CENTER, before=6, after=6, keep=True)
 
 
-def add_body(doc, blocks):
+def shrink(p, pt=1):
+    # An empty paragraph still takes the Normal 14 pt line unless its mark is shrunk too.
+    pf = p.paragraph_format
+    pf.space_before = pf.space_after = Pt(0)
+    pf.line_spacing_rule, pf.line_spacing = WD_LINE_SPACING.EXACTLY, Pt(pt)
+    ppr = p._p.get_or_add_pPr()
+    mark = OxmlElement("w:rPr")
+    size = OxmlElement("w:sz")
+    size.set(qn("w:val"), "2")
+    mark.append(size)
+    section = ppr.find(qn("w:sectPr"))
+    if section is None:
+        ppr.append(mark)
+    else:
+        section.addprevious(mark)
+    return p
+
+
+def add_gap(doc, pt):
+    return shrink(doc.add_paragraph(), pt)
+
+
+def column_widths(rows):
+    # Each column gets room for its longest unbreakable word, then the spare width goes to the
+    # columns whose text would otherwise wrap, in proportion to how much they need.
+    def mm(text, bold=False):
+        return est_pt(text, S_TABLE, bold) * 1.1 / MM_PT + 2 * PAD + 1
+
+    narrow, wide = [], []
+    for j in range(len(rows[0])):
+        words = [(w, i == 0) for i, r in enumerate(rows) for w in r[j].split()]
+        narrow.append(max((mm(w, bold) for w, bold in words), default=mm("0")))
+        wide.append(max(mm(r[j], i == 0) for i, r in enumerate(rows[1:], 1)))
+    wide = [max(w, n) for w, n in zip(wide, narrow)]
+    if sum(wide) <= TEXT_W:
+        spare = (TEXT_W - sum(wide)) / len(wide)
+        return [w + spare for w in wide]
+    need = sum(w - n for w, n in zip(wide, narrow))
+    share = (TEXT_W - sum(narrow)) / need if need else 0
+    return [n + (w - n) * share for w, n in zip(wide, narrow)]
+
+
+def add_data_table(doc, rows):
+    table = make_table(doc, len(rows), column_widths(rows))
+    pr = table._tbl.tblPr
+    borders = OxmlElement("w:tblBorders")
+    for side in ("top", "left", "bottom", "right", "insideH", "insideV"):
+        el = OxmlElement(f"w:{side}")
+        for key, val in (("val", "single"), ("sz", "4"), ("space", "0"), ("color", "000000")):
+            el.set(qn(f"w:{key}"), val)
+        borders.append(el)
+    pr.find(qn("w:tblInd")).addnext(borders)
+    table.rows[0]._tr.get_or_add_trPr().append(OxmlElement("w:tblHeader"))
+    has_stt = all(re.fullmatch(r"\d{0,3}", r[0].strip()) for r in rows[1:]) and any(r[0] for r in rows[1:])
+    for i, row in enumerate(rows):
+        for j, text in enumerate(row):
+            cell = table.rows[i].cells[j]
+            if i == 0:
+                align = CENTER
+                cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+            elif j == 0 and has_stt:
+                align = CENTER
+            elif NUMERIC.fullmatch(text) and any(c.isdigit() for c in text):
+                align = WD_ALIGN_PARAGRAPH.RIGHT
+            else:
+                align = WD_ALIGN_PARAGRAPH.LEFT
+            add_para(cell, [(text, S_TABLE, i == 0, False)], align, before=3, after=3, keep=i == 0)
+            finish(cell)
+    # Word merges two adjacent tables, so a paragraph must always follow.
+    add_gap(doc, 8)
+
+
+def add_body(doc, blocks, keep_last=True):
     last = len(blocks) - 1
     for i, block in enumerate(blocks):
+        if isinstance(block, dict) and "table" in block:
+            add_data_table(doc, block["table"])
+            continue
         lead, heading = "", None
         if isinstance(block, str):
             text = block
@@ -398,7 +538,7 @@ def add_body(doc, blocks):
                      first=INDENT_MM, keep=True)
             continue
         runs = ([(lead + " ", S_BODY, True, False)] if lead else []) + [(text, S_BODY, False, False)]
-        add_para(doc, runs, JUSTIFY, after=6, line=BODY_LINE, first=INDENT_MM, keep=i == last)
+        add_para(doc, runs, JUSTIFY, after=6, line=BODY_LINE, first=INDENT_MM, keep=keep_last and i == last)
 
 
 def fill_recipients(cell, recipients, before=6):
@@ -455,6 +595,32 @@ def add_field(p, instruction, size):
         run._r.append(el)
 
 
+def number_pages(sec):
+    # Page number sits centred in the top margin and is hidden on the first page (Phu luc I).
+    sec.different_first_page_header_footer = True
+    sec.first_page_header.is_linked_to_previous = False
+    sec.header.is_linked_to_previous = False
+    page = sec.header.paragraphs[0]
+    page.alignment = CENTER
+    add_field(page, "PAGE", S_PAGE)
+
+
+def add_appendix(doc, spec, dt, appendix, label):
+    sec = doc.add_section(WD_SECTION.NEW_PAGE)
+    # the paragraph that now carries the previous section's break
+    shrink(doc.paragraphs[-1])
+    start = OxmlElement("w:pgNumType")
+    start.set(qn("w:start"), "1")
+    sec._sectPr.find(qn("w:pgMar")).addnext(start)
+    number_pages(sec)
+    title = appendix["title"].upper()
+    add_para(doc, [(label, 14, True, False)], CENTER, keep=True)
+    add_para(doc, [(title, 14, True, False)], CENTER, keep=True)
+    add_para(doc, [(kem_theo(spec, dt), 14, False, True)], CENTER, keep=True)
+    add_rule(doc, RULE_RATIO * min(est_pt(title, 14, True), TEXT_W * MM_PT), TEXT_W * MM_PT, after=6)
+    add_body(doc, appendix["body"], keep_last=False)
+
+
 def setup_document():
     doc = Document()
     sec = doc.sections[0]
@@ -483,14 +649,20 @@ def setup_document():
     lang.set(qn("w:eastAsia"), "vi-VN")
     normal.element.rPr.append(lang)
 
-    # Page number sits centred in the top margin and is hidden on page 1 (Phu luc I).
-    sec.different_first_page_header_footer = True
-    sec.first_page_header.is_linked_to_previous = False
-    sec.header.is_linked_to_previous = False
-    page = sec.header.paragraphs[0]
-    page.alignment = CENTER
-    add_field(page, "PAGE", S_PAGE)
+    number_pages(sec)
     return doc
+
+
+def page_chu(spec):
+    texts = list(spec.get("basis", []))
+    for block in spec["body"]:
+        if isinstance(block, str):
+            texts.append(block)
+        elif "table" in block:
+            texts.extend(cell for row in block["table"] for cell in row)
+        else:
+            texts.extend(v for v in block.values())
+    return sum(len(t.split()) for t in texts)
 
 
 def build(spec):
@@ -502,9 +674,14 @@ def build(spec):
     add_title_block(doc, spec, dt)
     if not dt.vv and "to" in spec:
         add_kinh_gui(doc, spec["to"])
+    add_basis(doc, spec, dt)
     add_body(doc, spec["body"])
     add_signatures(doc, spec, dt)
-    add_para(doc, [("", 1, False, False)], line=1.0)
+    appendices = spec.get("appendices", [])
+    for i, appendix in enumerate(appendices):
+        label = "Phụ lục" if len(appendices) == 1 else f"Phụ lục {roman(i + 1)}"
+        add_appendix(doc, spec, dt, appendix, label)
+    add_gap(doc, 1)
     return doc
 
 
@@ -525,6 +702,9 @@ spec fields (JSON object):
   basis       căn cứ list: required for quyết định (1+); optional for tờ trình, thông báo,
               báo cáo, kế hoạch; ";" and "." are added for you
   body        required list: "paragraph" | {{"heading": "..."}} | {{"lead": "Điều 1.", "text": "..."}}
+              | {{"table": [["header", ...], ["cell", ...], ...]}} (2+ rows, equal cell counts)
+  appendices  optional non-empty list of {{"title": "...", "body": [same blocks as body]}};
+              each starts a new page with its own page numbers, "Phụ lục I", "Phụ lục II", ...
   recipients  Nơi nhận list; "- ", ";" and the final "." are added for you
   signers     exactly 1 {{"position": ["KT. GIÁM ĐỐC", "PHÓ GIÁM ĐỐC"], "name": "..."}};
               biên bản takes exactly 2: [THƯ KÝ, CHỦ TỌA] (position optional)
@@ -540,6 +720,8 @@ Exit status 2 on an invalid spec (one "error:" line per problem); no file is wri
         epilog=epilog, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("spec", help="path to the JSON spec")
     ap.add_argument("out", help="path of the .docx to write")
+    ap.add_argument("--one-page", action="store_true",
+                    help=f"refuse a main page whose căn cứ and body exceed {ONE_PAGE_CHU} chữ")
     return ap
 
 
@@ -555,6 +737,13 @@ def main(argv=None):
     if errs:
         print("\n".join(errs), file=sys.stderr)
         return 2
+    if args.one_page:
+        chu = page_chu(spec)
+        if chu > ONE_PAGE_CHU:
+            print(f"error: the main page has {chu} chữ; one page holds {ONE_PAGE_CHU}. "
+                  "Move detail into a phụ lục.", file=sys.stderr)
+            return 2
+        print(f"main page: {chu}/{ONE_PAGE_CHU} chữ")
     doc = build(spec)
     partial = f"{args.out}.part"
     try:

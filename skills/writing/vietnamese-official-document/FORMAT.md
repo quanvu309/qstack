@@ -59,6 +59,16 @@ A two-column row under the body.
 - Left, level with the position line: "Nơi nhận:" in bold italic 12, then entries in 11, each "- ..." ending ";", the last always "- Lưu: VT, {drafting unit}." Công văn, tờ trình and báo cáo start the list with "- Như trên;".
 - Paper signatures use blue ink; the seal is red and covers about a third of the signature on its left.
 
+## Phụ lục
+
+Each phụ lục starts on a new page and numbers its own pages from 1, hidden on its first page. Centred at its top:
+
+- "Phụ lục" alone when there is one, "Phụ lục I", "Phụ lục II" when there are several: 14 pt, bold.
+- Its title in caps, 13-14 pt, bold.
+- In italic: "(Kèm theo Tờ trình số 08/TTr-XYZ ngày 05 tháng 01 năm 2027 của Công ty Cổ phần XYZ)".
+
+The decree sets no table style. The builder draws single borders and a bold header row that repeats on each page.
+
 ## Biên bản differences
 
 No địa danh and date line in the header. Two signature blocks side by side, "THƯ KÝ" on the left and "CHỦ TỌA" on the right, with Nơi nhận below them on the left.

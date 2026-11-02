@@ -8,6 +8,18 @@ Mỗi skill đều ngắn, dễ sửa và ghép được với nhau. Bạn cứ 
 
 > **English.** Agent skills for writing and designing in Vietnamese: native prose without translationese, typography that keeps diacritics whole, and forms that fit Vietnamese names, addresses and money.
 
+## Ví dụ
+
+Tờ trình một trang do `vietnamese-one-pager` soạn: đề nghị nằm ngay đoạn đầu, dự toán chi tiết chuyển sang Phụ lục II. Mỗi phụ lục sang trang mới và đánh số trang riêng.
+
+![Tờ trình một trang và phụ lục dự toán chi phí](https://github.com/quanvu309/qstack/releases/latest/download/one-pager.png)
+
+Quyết định bổ nhiệm và công văn do `vietnamese-official-document` dựng thành file .docx, đúng thể thức Nghị định 30/2020/NĐ-CP: Quốc hiệu, Tiêu ngữ, số và ký hiệu, trích yếu, nơi nhận, chữ ký.
+
+![Quyết định bổ nhiệm và công văn theo thể thức Nghị định 30](https://github.com/quanvu309/qstack/releases/latest/download/official-documents.png)
+
+Ảnh được dựng lại từ các file mẫu trong `skills/writing/vietnamese-official-document/examples/` mỗi lần phát hành phiên bản mới.
+
 ## Cài đặt
 
 Chọn một cách cho mỗi agent. Cài cả plugin lẫn skills.sh thì mỗi skill sẽ xuất hiện hai lần.
@@ -55,6 +67,7 @@ Sau khi cài, chạy `/setup-qstack` một lần trong mỗi dự án để ch�
 
 - **[vietnamese-writing](./skills/writing/vietnamese-writing/SKILL.md)**: Viết, dịch và sửa văn bản tiếng Việt cho tự nhiên như người Việt viết: giữ một cặp xưng hô, chọn văn phong, rà 12 kiểu văn dịch, định dạng số, tiền, ngày tháng.
 - **[vietnamese-official-document](./skills/writing/vietnamese-official-document/SKILL.md)**: Soạn văn bản hành chính (quyết định, công văn, tờ trình, thông báo, báo cáo, kế hoạch, biên bản, giấy mời, giấy giới thiệu) đúng văn phong hành chính và đúng thể thức Nghị định 30/2020/NĐ-CP, xuất ra file .docx.
+- **[vietnamese-one-pager](./skills/writing/vietnamese-one-pager/SKILL.md)**: Viết tờ trình, báo cáo nhanh hay đề xuất gói gọn trong một trang, nêu đề nghị ngay câu đầu, chuyển chi tiết sang phụ lục để bổ sung sau.
 
 ## Thiết kế
 

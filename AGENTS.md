@@ -27,6 +27,12 @@ Bucket `README.md`s and the top-level `README.md` group promoted skills under **
 
 ## Releases
 
-Bump `version` in `.claude-plugin/plugin.json` when a skill's behaviour changes, and add a line to `CHANGELOG.md`. Installed plugins update only when that version changes.
+Versions follow `0.0.x` for now. A release:
+
+1. On a branch, bump `version` in `.claude-plugin/plugin.json` and add the matching `## x.y.z` section to `CHANGELOG.md`. Installed plugins update only when that version changes.
+2. Merge to `main`.
+3. From an up-to-date `main`, run `scripts/release.sh x.y.z`. It checks the version and changelog, renders the README showcase images from the `.docx` examples with LibreOffice (set `SOFFICE` when `soffice` is not on PATH), tags `vx.y.z`, and creates the GitHub release with the changelog section as notes and the images attached.
+
+The README embeds those images from `releases/latest/download/`, so every release must carry them, and images never go into git. Look at the rendered images before publishing; the script stops for confirmation.
 
 To link every skill outside `deprecated/` into `~/.claude/skills` and `~/.agents/skills` for local testing, run `scripts/link-skills.sh`.
