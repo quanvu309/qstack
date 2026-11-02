@@ -68,7 +68,7 @@ Call the Skill tool with "vietnamese-writing" and check every sentence of the dr
 uv run --with python-docx <skill-dir>/scripts/build_docx.py spec.json out.docx
 ```
 
-`<skill-dir>` is the absolute path of the folder holding this SKILL.md. `--help` prints the spec fields and the type codes, and `examples/` holds a full spec for a quyết định, a công văn and a biên bản. The script refuses a spec with a missing required field and names the field.
+`<skill-dir>` is the absolute path of the folder holding this SKILL.md. `--help` prints the spec fields and the type codes, and `examples/` holds a full spec for a quyết định, a công văn and a biên bản. The script refuses a spec with a missing required field and names the field. A spec may carry `appendices` (each a phụ lục on its own pages) and `{"table": [[...], ...]}` body blocks; `--one-page` refuses a main page over 275 chữ.
 
 Either way, leave the number and the day blank in a draft: the clerk (văn thư) assigns both at issuance. In a spec, omit `number` and give `date` as year and month.
 
