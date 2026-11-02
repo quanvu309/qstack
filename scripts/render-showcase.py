@@ -3,7 +3,8 @@
 
 Usage: uv run --with python-docx --with pymupdf --with pillow scripts/render-showcase.py [OUT_DIR]
 
-Needs LibreOffice. Set SOFFICE to its `soffice` binary when it is not on PATH.
+Needs LibreOffice (set SOFFICE to its `soffice` binary when it is not on PATH) and network
+access on the first run to fetch the background photo into dist/.
 Writes OUT_DIR/<name>.png (default dist/showcase). scripts/release.sh attaches them to each GitHub release.
 """
 
@@ -14,8 +15,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+import urllib.request
+
 import pymupdf
-from PIL import Image, ImageDraw
+from PIL import Image, ImageEnhance, ImageFilter
 
 REPO = Path(__file__).resolve().parent.parent
 SKILL = REPO / "skills/writing/vietnamese-official-document"
@@ -28,8 +31,11 @@ SHOWCASE = {
 }
 
 DPI = 110
-PAD, GAP = 40, 32
-BACKGROUND, BORDER = (238, 240, 243), (201, 206, 214)
+PAD_X, PAD_Y, GAP = 240, 130, 110
+# "Serene Landscape of Ha Long Bay" by Yagyaansh Khaneja, Pexels License (free, no attribution required).
+# https://www.pexels.com/photo/serene-landscape-of-ha-long-bay-vietnam-36164068/
+BACKGROUND_URL = "https://images.pexels.com/photos/36164068/pexels-photo-36164068.jpeg?auto=compress&cs=tinysrgb&w=3200"
+BACKGROUND_CACHE = REPO / "dist/background-36164068.jpg"
 
 
 def soffice():
@@ -55,15 +61,34 @@ def page_image(pdf, number):
     return Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
 
 
+def background(size):
+    if not BACKGROUND_CACHE.exists():
+        BACKGROUND_CACHE.parent.mkdir(parents=True, exist_ok=True)
+        # The CDN refuses requests without a browser-like User-Agent.
+        request = urllib.request.Request(BACKGROUND_URL, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(request) as response:
+            BACKGROUND_CACHE.write_bytes(response.read())
+    photo = Image.open(BACKGROUND_CACHE).convert("RGB")
+    scale = max(size[0] / photo.width, size[1] / photo.height)
+    photo = photo.resize((round(photo.width * scale), round(photo.height * scale)), Image.LANCZOS)
+    left, top = (photo.width - size[0]) // 2, (photo.height - size[1]) // 2
+    photo = photo.crop((left, top, left + size[0], top + size[1]))
+    # Soften and darken the photo so the white pages carry the attention.
+    return ImageEnhance.Brightness(photo.filter(ImageFilter.GaussianBlur(1.5))).enhance(0.9)
+
+
 def compose(pages):
     w, h = pages[0].size
-    canvas = Image.new("RGB", (PAD * 2 + w * len(pages) + GAP * (len(pages) - 1), PAD * 2 + h),
-                       BACKGROUND)
-    draw = ImageDraw.Draw(canvas)
+    size = (PAD_X * 2 + w * len(pages) + GAP * (len(pages) - 1), PAD_Y * 2 + h)
+    canvas = background(size)
+    shadow = Image.new("L", size, 0)
+    for i in range(len(pages)):
+        x = PAD_X + i * (w + GAP)
+        shadow.paste(150, (x + 4, PAD_Y + 14, x + w + 4, PAD_Y + h + 14))
+    shadow = shadow.filter(ImageFilter.GaussianBlur(18))
+    canvas = Image.composite(Image.new("RGB", size, (0, 0, 0)), canvas, shadow)
     for i, page in enumerate(pages):
-        x = PAD + i * (w + GAP)
-        canvas.paste(page, (x, PAD))
-        draw.rectangle([x - 1, PAD - 1, x + w, PAD + h], outline=BORDER)
+        canvas.paste(page, (PAD_X + i * (w + GAP), PAD_Y))
     return canvas
 
 

@@ -18,7 +18,7 @@ Quyết định bổ nhiệm và công văn do `vietnamese-official-document` d�
 
 ![Quyết định bổ nhiệm và công văn theo thể thức Nghị định 30](https://github.com/quanvu309/qstack/releases/latest/download/official-documents.png)
 
-Ảnh được dựng lại từ các file mẫu trong `skills/writing/vietnamese-official-document/examples/` mỗi lần phát hành phiên bản mới.
+Ảnh được dựng lại từ các file mẫu trong `skills/writing/vietnamese-official-document/examples/` mỗi lần phát hành phiên bản mới. Ảnh nền: vịnh Hạ Long, chụp bởi [Yagyaansh Khaneja](https://www.pexels.com/photo/serene-landscape-of-ha-long-bay-vietnam-36164068/) trên Pexels.
 
 ## Cài đặt
 
