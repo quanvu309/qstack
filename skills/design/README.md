@@ -1,10 +1,10 @@
 # Thiết kế
 
-Skill cho giao diện và dữ liệu dành cho người Việt.
+Skill cho giao diện và dữ liệu của người dùng Việt.
 
 ## Agent tự gọi
 
-Agent tự chọn khi việc đang làm khớp với mô tả. Bạn cũng có thể gõ tên skill để gọi trực tiếp.
+Agent tự gọi khi việc đang làm khớp với mô tả. Gõ tên skill để gọi thẳng cũng được.
 
-- **[vietnamese-typography](./vietnamese-typography/SKILL.md)**: Chọn font đủ chữ tiếng Việt, giữ dấu không bị cắt, ngắt dòng đúng.
-- **[vietnamese-locale](./vietnamese-locale/SKILL.md)**: Form, tìm kiếm, sắp xếp và định dạng cho họ tên, địa chỉ, số điện thoại, tiền đồng, ngày tháng.
+- **[vi-typography](./vi-typography/SKILL.md)**: Chọn font đủ chữ tiếng Việt, giữ dấu không bị cắt, không để dòng ngắt giữa số và đơn vị.
+- **[vi-locale](./vi-locale/SKILL.md)**: Form, tìm kiếm, sắp xếp và định dạng cho họ tên, địa chỉ, số điện thoại, tiền đồng, ngày tháng.
