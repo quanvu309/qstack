@@ -29,4 +29,6 @@ Bucket `README.md`s and the top-level `README.md` group promoted skills under **
 
 Bump `version` in `.claude-plugin/plugin.json` when a skill's behaviour changes, and add a line to `CHANGELOG.md`. Installed plugins update only when that version changes.
 
+The images in `docs/images/` show the `.docx` builder's output in the top-level `README.md`. After changing `build_docx.py` or a file in its `examples/`, rerun `uv run --with python-docx --with pymupdf --with pillow scripts/render-showcase.py` (it needs LibreOffice; set `SOFFICE` when `soffice` is not on PATH), look at the new images, and commit them.
+
 To link every skill outside `deprecated/` into `~/.claude/skills` and `~/.agents/skills` for local testing, run `scripts/link-skills.sh`.

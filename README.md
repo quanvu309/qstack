@@ -8,6 +8,18 @@ Mỗi skill đều ngắn, dễ sửa và ghép được với nhau. Bạn cứ 
 
 > **English.** Agent skills for writing and designing in Vietnamese: native prose without translationese, typography that keeps diacritics whole, and forms that fit Vietnamese names, addresses and money.
 
+## Ví dụ
+
+Tờ trình một trang do `vietnamese-one-pager` soạn: đề nghị nằm ngay đoạn đầu, dự toán chi tiết chuyển sang Phụ lục II. Mỗi phụ lục sang trang mới và đánh số trang riêng.
+
+![Tờ trình một trang và phụ lục dự toán chi phí](./docs/images/one-pager.png)
+
+Quyết định bổ nhiệm và công văn do `vietnamese-official-document` dựng thành file .docx, đúng thể thức Nghị định 30/2020/NĐ-CP: Quốc hiệu, Tiêu ngữ, số và ký hiệu, trích yếu, nơi nhận, chữ ký.
+
+![Quyết định bổ nhiệm và công văn theo thể thức Nghị định 30](./docs/images/official-documents.png)
+
+Hai ảnh trên dựng từ các file mẫu trong `skills/writing/vietnamese-official-document/examples/` bằng `scripts/render-showcase.py`.
+
 ## Cài đặt
 
 Chọn một cách cho mỗi agent. Cài cả plugin lẫn skills.sh thì mỗi skill sẽ xuất hiện hai lần.
