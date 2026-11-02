@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0
+
+- New skill `vietnamese-one-pager`: one-page tờ trình, updates and proposals, answer first, with a page budget measured by rendering and phụ lục that can be added later.
+- The `.docx` builder renders `appendices` (Phụ lục I, II... on new pages with their own page numbers) and `table` blocks, and no longer spills a blank second page when the signature ends near the bottom of page 1.
+- `build_docx.py --one-page` refuses a main page over 275 chữ and prints the count otherwise.
+- Kính gửi now comes before the căn cứ lines in a tờ trình or báo cáo.
+
 ## 0.2.0
 
 - New skill `vietnamese-official-document`: văn phong hành chính for government and corporate documents, the Nghị định 30/2020 layout, and a `.docx` builder.

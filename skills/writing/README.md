@@ -14,3 +14,4 @@ Agent tự chọn khi việc đang làm khớp với mô tả. Bạn cũng có t
 
 - **[vietnamese-writing](./vietnamese-writing/SKILL.md)**: Viết, dịch và sửa văn bản tiếng Việt cho tự nhiên như người Việt viết, không mang giọng dịch.
 - **[vietnamese-official-document](./vietnamese-official-document/SKILL.md)**: Soạn văn bản hành chính đúng văn phong và thể thức Nghị định 30/2020/NĐ-CP, xuất ra file .docx.
+- **[vietnamese-one-pager](./vietnamese-one-pager/SKILL.md)**: Viết tờ trình, báo cáo nhanh hay đề xuất gói gọn trong một trang, chi tiết để ở phụ lục.

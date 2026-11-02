@@ -55,6 +55,7 @@ Sau khi cài, chạy `/setup-qstack` một lần trong mỗi dự án để ch�
 
 - **[vietnamese-writing](./skills/writing/vietnamese-writing/SKILL.md)**: Viết, dịch và sửa văn bản tiếng Việt cho tự nhiên như người Việt viết: giữ một cặp xưng hô, chọn văn phong, rà 12 kiểu văn dịch, định dạng số, tiền, ngày tháng.
 - **[vietnamese-official-document](./skills/writing/vietnamese-official-document/SKILL.md)**: Soạn văn bản hành chính (quyết định, công văn, tờ trình, thông báo, báo cáo, kế hoạch, biên bản, giấy mời, giấy giới thiệu) đúng văn phong hành chính và đúng thể thức Nghị định 30/2020/NĐ-CP, xuất ra file .docx.
+- **[vietnamese-one-pager](./skills/writing/vietnamese-one-pager/SKILL.md)**: Viết tờ trình, báo cáo nhanh hay đề xuất gói gọn trong một trang, nêu đề nghị ngay câu đầu, chuyển chi tiết sang phụ lục để bổ sung sau.
 
 ## Thiết kế
 
